@@ -5,27 +5,27 @@
 <img src="https://github.com/lyzMaster/mess/raw/master/gta-diagram-e0d755e52a552b0a6615418efc77aa1bdbd0bd5b88c3ae056e65f2168867c6c6.jpg" alt="Self-Driving Car" width="900px">
 
 ## Installation
-1. 确认streeting，throttle，brake在内存中与vehicle首地址的偏移量（可使用 *bin/Release* 预编译文件尝试）
+1. 确认 *steering，throttle，brake* 在内存中与vehicle首地址的偏移量（可使用 *bin/Release* 预编译文件尝试）
 2. 使用visual studio编译项目
-3.将 *bin/Release* 文件拷贝到GTAV根目录
+3. 将 *bin/Release* 文件拷贝到GTAV根目录
 4. Replace your saved game data in *Documents/Rockstar Games/GTA V/Profiles/* with the contents of *bin/SaveGame*
 5. Download *[paths.xml](https://pan.baidu.com/s/1GlqFqVK3W7NMNhCH99VtOw)* and store it also in the GTAV installation directory. 
 
-## 寻找vehicle首地址offset方法
-1.将提供的预编译文件拷贝到GTAV根目录，运行GTAV，对8000端口发出`start`指令
-2.使用 *[Cheat Engine](https://www.cheatengine.org/)* ，从GTAV根目录下的`VehicleBaseAddress.log`文件里的地址开始，到此地址后`0xfa0`位，对`[-2,2]`的`float`值进行搜索，同时进行游戏，观察地址中值的变化情况
-3.预编译文件offset：throttle（0x8A4），brake（0x8A8），steering（0x89C）
-4.在 `1.0.231.0 NON-STEAM` 运行良好
+## 寻找vehicle首地址offset
+1. 将提供的预编译文件拷贝到GTAV根目录，运行GTAV，对8000端口发出`start`指令
+2. 使用 *[Cheat Engine](https://www.cheatengine.org/)* ，从GTAV根目录下的`VehicleBaseAddress.log`文件里的地址开始，到此地址后`0xfa0`位，对`[-2,2]`的`float`值进行搜索，同时进行游戏，观察地址中值的变化情况
+3. 预编译文件offset： *throttle（0x8A4），brake（0x8A8），steering（0x89C）*
+4. 在版本 *1.0.231.0 NON-STEAM* 运行良好
 
 ## Revision Info
-1.增加`VehicleBaseAddress.log`方便调试
-2.更改截图方式由左上角改为任意位置
-3.更改offset
+1. 增加`VehicleBaseAddress.log`方便调试
+2. 更改截图方式由左上角改为任意位置
+3. 更改offset
 
-## streeting，throttle，brake值含义
-streeting: [-1,1]，负数：倒退，正数：向前行驶。数值代表油门百分比
-brake: [0,1]，代表刹车的百分比
-steering: [-pi/5,pi/5]，负数：向左转，正数：向右转
+## steering，throttle，brake值含义
+**steering**: [-1,1]; 负数：*倒退*，正数： *向前行驶*。数值代表油门百分比</br>
+**brake**: [0,1]，代表刹车的百分比</br>
+**steering**: [-pi/5,pi/5]，负数：*向左转*，正数：*向右转*</br>
 
 
 ## Messages from the client to DeepGTAV
@@ -137,4 +137,3 @@ The messages rate and content will depend on the configuration set by the *Start
 
 This is a byte array containing the RGB values of the current GTAV screen (resized to the specified width and length). Make sure the window is not minimized, otherwise the values will be all zeroes (black).
 
-### Data
