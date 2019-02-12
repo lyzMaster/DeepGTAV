@@ -1,34 +1,32 @@
-# DeepGTAV v2
+# DeepGTAV v2 Revision
 
 *A plugin for GTAV that transforms it into a vision-based self-driving car research environment.*
 
-<img src="https://img.gta5-mods.com/q95/images/naturalvision-photorealistic-gtav/b4de94-GTA5%202016-08-28%2022-05-52.jpg" alt="Self-Driving Car" width="900px">
+<img src="https://github.com/lyzMaster/mess/raw/master/gta-diagram-e0d755e52a552b0a6615418efc77aa1bdbd0bd5b88c3ae056e65f2168867c6c6.jpg" alt="Self-Driving Car" width="900px">
 
 ## Installation
-1. Make sure GTAV is on version 1.0.1180.2 or below
-2. Copy-paste the contents of *bin/Release* under your GTAV installation directory
-3. Replace your saved game data in *Documents/Rockstar Games/GTA V/Profiles/* with the contents of *bin/SaveGame*
-4. Download *[paths.xml](https://drive.google.com/file/d/0B6pR5O2YrmHnNU9EMDBSSFpMV00/view?usp=sharing)* and store it also in the GTAV installation directory. 
+1. 确认streeting，throttle，brake在内存中与vehicle首地址的偏移量（可使用 *bin/Release* 预编译文件尝试）
+2. 使用visual studio编译项目
+3.将 *bin/Release* 文件拷贝到GTAV根目录
+4. Replace your saved game data in *Documents/Rockstar Games/GTA V/Profiles/* with the contents of *bin/SaveGame*
+5. Download *[paths.xml](https://pan.baidu.com/s/1GlqFqVK3W7NMNhCH99VtOw)* and store it also in the GTAV installation directory. 
 
-## Recommendations
+## 寻找vehicle首地址offset方法
+1.将提供的预编译文件拷贝到GTAV根目录，运行GTAV，对8000端口发出`start`指令
+2.使用 *[Cheat Engine](https://www.cheatengine.org/)* ，从GTAV根目录下的`VehicleBaseAddress.log`文件里的地址开始，到此地址后`0xfa0`位，对`[-2,2]`的`float`值进行搜索，同时进行游戏，观察地址中值的变化情况
+3.预编译文件offset：throttle（0x8A4），brake（0x8A8），steering（0x89C）
+4.在 `1.0.231.0 NON-STEAM` 运行良好
 
-1. Under your game settings, set your screen to windowed mode
-2. Bypass the menu screen by configuring GTAV to start directly into Story Mode
-3. To avoid the Rockstar updates, start the game using GTA5.exe, otherwise use GTAVLauncher.exe or PlayGTAV.exe
+## Revision Info
+1.增加`VehicleBaseAddress.log`方便调试
+2.更改截图方式由左上角改为任意位置
+3.更改offset
 
-## How it works
+## streeting，throttle，brake值含义
+streeting: [-1,1]，负数：倒退，正数：向前行驶。数值代表油门百分比
+brake: [0,1]，代表刹车的百分比
+steering: [-pi/5,pi/5]，负数：向左转，正数：向右转
 
-If installation was successful, GTAV will automatically load the DeepGTAV plugin. Once the game starts DeepGTAV will wait for TCP clients to connect on port 8000.
-
-Clients connected to DeepGTAV are allowed to send messages to GTAV to start and configure the research environment (*Start* and *Config* messages), send driving commands to control the vehicle (*Commands* message) and to stop the environment to fallback to normal gameplay (*Stop* message).
-
-When the environment has been started with the *Start* message, DeepGTAV will start sending the data gathered from the game back to the client in JSON format, so the client can use it to store a dataset, run it through a self-driving agent...
-
-The data sent back to the client and intitial conditions will depend on the parameters sent by the client with the *Start* or *Config* messages. Things that can be controlled for instance are: rate of transmission, frame width and height, weather, time, type of vehicle, driving style, wether to get surrounding vehicles or peds, type of reward function and a large etc...
-
-[VPilot](https://github.com/ai-tor/VPilot) provides a nice interface and examples written in Python to use DeepGTAV for your self-driving car research.
-
-The following chapters describe the purpose and contents of each message.
 
 ## Messages from the client to DeepGTAV
 
@@ -140,13 +138,3 @@ The messages rate and content will depend on the configuration set by the *Start
 This is a byte array containing the RGB values of the current GTAV screen (resized to the specified width and length). Make sure the window is not minimized, otherwise the values will be all zeroes (black).
 
 ### Data
-
-## Reporting issues and TODOs
-
-DeepGTAV generates a useful log file named *deepgtav.log* in GTAV's installation directory. Please attach it in your issue when reporting any bug.
-
-__TODO:__
-* Improve code quality (a lot!)
-* Add support for traffic signs detection
-* Add support for driving mode override
-* General bug fixing

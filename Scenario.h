@@ -89,4 +89,5 @@ private:
 	void setDrivingMode();
 	void setLocation();
 	void setTime();
+	void writeVehicleBaseAddress();
 };

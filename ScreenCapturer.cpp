@@ -11,8 +11,8 @@ ScreenCapturer::ScreenCapturer(int frameWidth, int frameHeight){
 
 	//Screen capture buffer
 	GRAPHICS::_GET_SCREEN_ACTIVE_RESOLUTION(&windowWidth, &windowHeight);
-	//hWnd = ::FindWindow(NULL, "Grand Theft Auto V");
-	hWindowDC = GetDC(NULL);
+	hWnd = ::FindWindow(NULL, "Grand Theft Auto V");
+	hWindowDC = GetDC(hWnd);  //win直接读取窗口内容
 	hCaptureDC = CreateCompatibleDC(hWindowDC);
 	hCaptureBitmap = CreateCompatibleBitmap(hWindowDC, imageWidth, imageHeight);
 	SelectObject(hCaptureDC, hCaptureBitmap);

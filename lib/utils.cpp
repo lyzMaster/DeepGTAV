@@ -2,10 +2,12 @@
 	THIS FILE IS A PART OF GTA V SCRIPT HOOK SDK
 				http://dev-c.com
 			(C) Alexander Blade 2015
+	lyzmaster adds txt io
 */
 #include "utils.h"
 #include "script.h"
 #include <windows.h>
+
 
 extern "C" IMAGE_DOS_HEADER __ImageBase; // MSVC specific, with other compilers use HMODULE from DllMain
 
@@ -71,7 +73,6 @@ void set_status_text(std::string str, DWORD time, bool isGxtEntry)
 float getFloatValue(Vehicle vehicle, int offset){
 	BYTE* pointerToData = getScriptHandleBaseAddress(vehicle) + offset;
 	float* data = (float *)pointerToData;
-
 	return *data;
 }
 

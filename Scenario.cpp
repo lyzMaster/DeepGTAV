@@ -6,11 +6,14 @@
 #include "Rewarders\SpeedRewarder.h"
 #include "defaults.h"
 #include <time.h>
+#include <iostream>
+#include <fstream>
 
 char* Scenario::weatherList[14] = { "CLEAR", "EXTRASUNNY", "CLOUDS", "OVERCAST", "RAIN", "CLEARING", "THUNDER", "SMOG", "FOGGY", "XMAS", "SNOWLIGHT", "BLIZZARD", "NEUTRAL", "SNOW" };
 char* Scenario::vehicleList[3] = { "blista", "voltic", "packer" };
 
 void Scenario::parseScenarioConfig(const Value& sc, bool setDefaults) {
+	writeVehicleBaseAddress();
 	const Value& location = sc["location"];
 	const Value& time = sc["time"];
 	const Value& weather = sc["weather"];
@@ -576,17 +579,17 @@ void Scenario::setPedsList(){
 	d["peds"] = _peds;
 }
 
-
+//offset随版本变化
 void Scenario::setThrottle(){
-	d["throttle"] = getFloatValue(vehicle, 0x92C);
+	d["throttle"] = getFloatValue(vehicle, 0x8A4);   //[-1,1]，负数：倒退，正数：向前行驶。数值代表油门百分比
 }
 
 void Scenario::setBrake(){
-	d["brake"] = getFloatValue(vehicle, 0x930);
+	d["brake"] = getFloatValue(vehicle, 0x8A8);   //[0,1]，代表刹车的百分比
 }
 
 void Scenario::setSteering(){
-	d["steering"] = -getFloatValue(vehicle, 0x924) / 0.6981317008;
+	d["steering"] = -getFloatValue(vehicle, 0x89C);   //[-pi/5,pi/5]，负数：向左转，正数：向右转
 }
 
 void Scenario::setSpeed(){
@@ -623,4 +626,15 @@ void Scenario::setDirection(){
 
 void Scenario::setReward() {
 	d["reward"] = rewarder->computeReward(vehicle);
+}
+
+void Scenario::writeVehicleBaseAddress() {   //将车辆根地址写入data.txt，方便寻找内存地址偏移
+	std::ofstream file;
+	file.open("VehicleBaseAddress.log");
+	file << "//power by lyzMaster" << std::endl;
+	file << "VehicleBaseAddress => ";
+	BYTE* pointer = getScriptHandleBaseAddress(vehicle);
+	file << static_cast<const void *>(pointer);
+	file << std::endl;
+	file.close();
 }
