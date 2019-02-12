@@ -14,7 +14,7 @@
 ## 寻找vehicle首地址offset
 1. 将提供的预编译文件拷贝到GTAV根目录，运行GTAV，对8000端口发出`start`指令
 2. 使用 *[Cheat Engine](https://www.cheatengine.org/)* ，从GTAV根目录下的`VehicleBaseAddress.log`文件里的地址开始，到此地址后`0xfa0`位，对`[-2,2]`的`float`值进行搜索，同时进行游戏，观察地址中值的变化情况
-3. 预编译文件offset： *throttle（0x8A4），brake（0x8A8），steering（0x89C）*
+3. 预编译文件offset： `throttle（0x8A4）`，`brake（0x8A8）`，`steering（0x89C）`
 4. 在版本 *1.0.231.0 NON-STEAM* 运行良好
 
 ## Revision Info
@@ -23,9 +23,9 @@
 3. 更改offset
 
 ## steering，throttle，brake值含义
-**steering**: [-1,1]; 负数：*倒退*，正数： *向前行驶*。数值代表油门百分比</br>
-**brake**: [0,1]，代表刹车的百分比</br>
-**steering**: [-pi/5,pi/5]，负数：*向左转*，正数：*向右转*</br>
+***steering***:  **[-1,1]**， `负数：倒退，正数：向前行驶`。数值代表油门百分比</br>
+***brake***:  **[0,1]**，代表刹车的百分比</br>
+***steering***:  **[-pi/5,pi/5]**，`负数：向左转，正数：向右转`</br>
 
 
 ## Messages from the client to DeepGTAV
